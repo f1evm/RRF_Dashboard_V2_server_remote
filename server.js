@@ -18,7 +18,7 @@ server.get('/nodes', function(req, res,next){
   res.status(200).send(fsm)
 })
 
-server.get('/realtime/:name', function(req, res){ sse.init(req, res); } )
+server.get('/realtime', function(req, res){ sse.init(req, res); } )
 
 server.get('/salons', (req, res) => {
   var slns= [];
