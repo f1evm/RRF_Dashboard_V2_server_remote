@@ -32,7 +32,7 @@ fsmr = (salon) => {
 EVENTS.forEach( event => {
 	eventEmitter.on(event, data => {
 		sse.send(data || [], event)
-		//console.log('### ', sln.name, '::>',event, data)
+		//console.log('::>',event, data)
 	})
 })
 

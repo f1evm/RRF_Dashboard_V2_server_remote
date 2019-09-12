@@ -1,9 +1,14 @@
+const {SALONS, SRVRNR, EXCLUSIONS} = require('../../config')
+
 function fsm(EE, changeHandler = () => {}, init = {}) {
 	const states = Object.create(null)
 
 	function reset() {
 		states.nodes = [];
-		states.transmitter = ''
+		states.transmitters = {};
+		SALONS.forEach(sln => {
+			states.transmitters[sln.name] = null;
+		})
 	}
 
 	reset()
@@ -23,16 +28,27 @@ function fsm(EE, changeHandler = () => {}, init = {}) {
 	// node = [server, salon, name, IP];
 
 	nodeIndex = (arr, nd) => {	
+		var [a,b,c] = nd;
 		for (var i = 0; i < arr.length; i++) {
-			var [,,ndname] = nd;
-			var [,,arrname] = arr[i];
-			if (ndname === arrname){
+			var [d,e,f] = arr[i];
+			if ((a === d) && (b === e) && (c === f)){
 				return i;
 			}
 		}
 		return -1;
 	}
 	
+	isExcluded = (nd) => {
+		if (nd[0] === SRVRNR){
+			const excl = EXCLUSIONS[nd[1]];
+			if (excl.includes(nd[2])){
+				return true
+			}
+		}
+		return false
+	}
+
+
 	on('ReflectorLogic.loginOk', (data) => {
 		const idx = nodeIndex(states.nodes, data);
 		if (idx <0 ) {
@@ -48,14 +64,15 @@ function fsm(EE, changeHandler = () => {}, init = {}) {
 	})
 
 	on('ReflectorLogic.talkerStart', (data) => {
-		var name = data[2];
-		if (((name.indexOf('RRF') !== 0) && (name.indexOf('GW-E') !== 0)) || (states.transmitter === '')){
-			states.transmitter = name;
-		} 
+		if (! isExcluded(data)){
+			states.transmitters[data[1]] = data;
+		}
 	})
 
-	on('ReflectorLogic.talkerStop', (data) => { // eslint-disable-line no-unused-vars
-		states.transmitter = '';
+	on('ReflectorLogic.talkerStop', (data) => { 
+		if (! isExcluded(data)){
+			states.transmitters[data[1]] = null;
+		}
 	})
 
 	return states
