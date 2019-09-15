@@ -44,21 +44,14 @@ class SvxlinkParser {
 				}
 			} else if (log[2] && (log[2].startsWith("Talker start"))) {
 				name = log[1];
-				if (isExcluded(name, server,salon)){
-					event =  null
-				} else {
-					event = "talkerStart"
-				}
-//					console.log("talkerStart : ","name = ",'|'+name+'|'," event = ", event)
-					
+				event = "talkerStart"
 			} else if (log[2] && (log[2].startsWith("Talker stop"))) {
 				name = log[1];
-				if (isExcluded(name, server,salon)){
-					event =  null
-				} else {
-					event = "talkerStop"
-				}
-//				console.log("talkerStop : ","name = ",'|'+name+'|'," event = ", event)
+				event = "talkerStop"
+			}
+			
+			if (isExcluded(name, server,salon)){
+				event =  null
 			}
 
 			if ( event !== null){

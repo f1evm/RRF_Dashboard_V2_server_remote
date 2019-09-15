@@ -25,7 +25,7 @@ const SALONS = [
   },
 ];
   
-const EXCLUSIONS = {"RRF": ["RRF"], "Technique": ["TECHNIQUE"], "International": ["INTERNATIONAL"], "Satellite": ["SATELLITE"]}
+const EXCLUSIONS = {"RRF": ["RRF","RRF3"], "Technique": ["TECHNIQUE"], "International": ["INTERNATIONAL"], "Satellite": ["SATELLITE"]}
 
 module.exports.PORT=PORT;
 module.exports.PROTOCOL=PROTOCOL;
