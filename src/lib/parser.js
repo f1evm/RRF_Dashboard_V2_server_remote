@@ -3,15 +3,15 @@ const { SRVRNR, EXCLUSIONS } = require('../../config');
 
 
 const isExcluded = (name, server, salon) => {
-	console.log(name, server, salon)
+	//console.log(name, server, salon)
 	if (server === SRVRNR){
 		const excl = EXCLUSIONS[salon];
 		if (excl.includes(name)){
-			console.log("true")
+			//console.log("true")
 			return true
 		}
 	}
-	console.log("false")
+	//console.log("false")
 	return false
 }
 
