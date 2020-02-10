@@ -9,10 +9,6 @@ var server = express();
 
 //server.use(express.static('client/build'));
 
-// api ancienne version V1 - Nodes connectés sur salon "name"
-server.get('/api/svxlink/:name', function(req, res, next){
-  res.status(200).send(fsmr(req.params.name))
-})
 // api V2 - Nodes connectés tous salons sur le serveur
 server.get('/nodes', function(req, res,next){
   res.status(200).send(fsm)
